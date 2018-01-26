@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -113,7 +113,7 @@ namespace NTOSFIleSeeker
             info += "3. Click on the 'Search Button', the files will be listed " + Environment.NewLine;
             info += "4. Once the files apppear, you can click the Copy button, the files will be copied to the " + Environment.NewLine;
             info += "<os build number\\arch_type> folder" + Environment.NewLine;
-            info += " " + Environment.NewLine;
+            info += " " + Environment.NewLine + Environment.NewLine + Environment.NewLine ;
             info += "Tool developer : C. A. Herrera" + Environment.NewLine;
 
             txt_info.Text = info;
