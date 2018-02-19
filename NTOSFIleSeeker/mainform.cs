@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,8 +25,9 @@ namespace NTOSFIleSeeker
         string arch_folder;
 
         string status;
-
         string info;
+
+        SimpleLogger log;
 
         enum system_path_files
         {
@@ -41,7 +42,11 @@ namespace NTOSFIleSeeker
 
         private void frm_copy_sys_Load(object sender, EventArgs e)
         {
-            if ( WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User )   // Check for Admin privileges   
+            log = new SimpleLogger();
+
+            log.Info(" Application form load");
+            log.Info(" Trying to get Admin privileges");
+            if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
             {
                 try
                 {
@@ -51,9 +56,9 @@ namespace NTOSFIleSeeker
                     info.Verb = "runas";   // invoke UAC prompt
                     Process.Start(info);
                 }
-                catch ( Win32Exception ex )
+                catch (Win32Exception ex)
                 {
-                    if ( ex.NativeErrorCode == 1223 ) //The operation was canceled by the user.
+                    if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
                     {
                         MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         Application.Exit();
@@ -61,6 +66,7 @@ namespace NTOSFIleSeeker
                     else
                         throw new Exception("Something went wrong :-(");
                 }
+                log.Debug("Canceled the Admin privileges");
                 Application.Exit();
             }
             else
@@ -68,29 +74,37 @@ namespace NTOSFIleSeeker
                 //    MessageBox.Show("I have admin privileges :-)");
             }
 
+            log.Info("Application has admin privileges");
+
             status += "App is on" + Environment.NewLine;
 
             windows_system_path = new string[2];
             pattern_files = new List<string>();
             full_path = new List<string>();
+
+            log.Info("Vars are initialazed ok!");
+
             if (Environment.Is64BitOperatingSystem )
             {
                 arch_folder = "amd64";
                 windows_system_path[0] = Environment.GetFolderPath(Environment.SpecialFolder.System);
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\drivers\\";
+                log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
+                for (int i = 0; i < windows_system_path.Length; i++)
+                    log.Trace(" PAth  found " + windows_system_path[i]);
             }
             else
             {
                 arch_folder = "x86";
                 windows_system_path[0] = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86);
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\drivers\\";
+                log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
+                for (int i = 0; i < windows_system_path.Length; i++)
+                    log.Trace(" PAth  found " + windows_system_path[i]);
             }
 
-            status += " System is " + arch_folder + Environment.NewLine;
-            status += " Path of folders are :" + windows_system_path[0] + Environment.NewLine ;
-            status += " Path of folders are :" + windows_system_path[1] + Environment.NewLine ;
+            log.Info("Status seems ok");
 
-            txt_status.AppendText(status);
 
             notifyIcon1.BalloonTipTitle = " NTOSFILESEEKER";
             notifyIcon1.Icon = this.Icon;
@@ -99,12 +113,21 @@ namespace NTOSFIleSeeker
             txt_path_build.Focus();
             btn_copy.Enabled = false;
 
-            pattern_files.Add("ntoskrnl.exe");
-            pattern_files.Add("hal.dll");
-            pattern_files.Add("dxgmms1.sys");
-            pattern_files.Add("dxgmms2.sys");
-            pattern_files.Add("dxgkrnl.sys");
-            pattern_files.Add("watchdog.sys");
+            log.Info("Notification did its job");
+
+            try
+            {
+                pattern_files.Add("ntoskrnl.exe");
+                pattern_files.Add("hal.dll");
+                pattern_files.Add("dxgmms1.sys");
+                pattern_files.Add("dxgmms2.sys");
+                pattern_files.Add("dxgkrnl.sys");
+                pattern_files.Add("watchdog.sys");
+            }
+            catch (Exception ex)
+            {
+                log.Debug("Error while trying to set the required pattern of files");
+            }
 
             info += "NTOSFileSeeker v" + Application.ProductVersion + Environment.NewLine;
             info += "How to use this tool :" + Environment.NewLine;
@@ -118,6 +141,7 @@ namespace NTOSFIleSeeker
 
             txt_info.Text = info;
 
+            log.Info("Application started normal.");
         }
 
         private void btn_search_Click(object sender, EventArgs e)
@@ -125,6 +149,9 @@ namespace NTOSFIleSeeker
             lst_files.DataSource = null;
             lst_files.Items.Clear();
             lst_files.Update();
+
+            if (lst_files.Items.Count == 0)
+                log.Trace("No lines is the list box");
 
             full_path = new List<string>();
             full_path.Clear();
@@ -136,6 +163,7 @@ namespace NTOSFIleSeeker
                     foreach ( string file in Directory.GetFiles(path, ext) )
                     {
                         full_path.Add(file);
+                        log.Info(" File path :" + file);
                     }
                 }
 
@@ -148,15 +176,16 @@ namespace NTOSFIleSeeker
         private void btn_copy_Click(object sender, EventArgs e)
         {
             save_folder = string.Empty;
-
             if ( txt_path_build.Text != string.Empty || txt_path_build.Text != "" )
             {
                 save_folder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + txt_path_build.Text + "\\" + arch_folder;
                 if ( Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)) )
                 {
+                    log.Trace("Call : btn_copy_click, Desktop folder is" + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) );
                     if (Directory.Exists(save_folder) == false)
                     {
                         Directory.CreateDirectory(save_folder);
+                        log.Trace("Save folder created succesfully.");
                     }
                     
                 }
@@ -166,18 +195,19 @@ namespace NTOSFIleSeeker
                     foreach ( string file in full_path )
                     {
                         File.Copy(file, save_folder + "\\" + Path.GetFileName(file), true);
+                        log.Trace("Copying file " + file);
                     }
 
                     notifyIcon1.BalloonTipText = " Process is done, check the files on the Desktop folder";
                     notifyIcon1.ShowBalloonTip(1000);
+                    log.Info(" Files seem to be copied to the target directory");
                 }
                 else
                 {
                     MessageBox.Show("No files are found? I'll search them, don't worry", "Missing somenthing ?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.Trace(" Clicked on copy instead of search, executing the search button Event"); 
                     btn_search.PerformClick();
                 }
-
-
             }
             else
             {
@@ -194,6 +224,7 @@ namespace NTOSFIleSeeker
 
         private void btn_exit_Click(object sender, EventArgs e)
         {
+            log.Info("Application exit.");
             Application.Exit();
         }
     }
