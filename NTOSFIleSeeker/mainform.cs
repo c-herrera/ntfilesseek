@@ -21,6 +21,8 @@ namespace NTOSFIleSeeker
         List<string> pattern_files;
         List<string> full_path;
 
+        string[] listfiles;
+
         string save_folder;
         string arch_folder;
 
@@ -55,26 +57,25 @@ namespace NTOSFIleSeeker
                     info.UseShellExecute = true;
                     info.Verb = "runas";   // invoke UAC prompt
                     Process.Start(info);
+                    log.Info("Application has admin privileges");
                 }
                 catch (Win32Exception ex)
                 {
                     if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
                     {
                         MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        log.Debug("Canceled the Admin privileges");
                         Application.Exit();
                     }
                     else
                         throw new Exception("Something went wrong :-(");
                 }
-                log.Debug("Canceled the Admin privileges");
                 Application.Exit();
             }
             else
             {
-                //    MessageBox.Show("I have admin privileges :-)");
+                log.Info("I have admin privileges :-)");
             }
-
-            log.Info("Application has admin privileges");
 
             status += "App is on" + Environment.NewLine;
 
@@ -91,7 +92,7 @@ namespace NTOSFIleSeeker
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\drivers\\";
                 log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
                 for (int i = 0; i < windows_system_path.Length; i++)
-                    log.Trace(" PAth  found " + windows_system_path[i]);
+                    log.Trace("Path  found " + windows_system_path[i]);
             }
             else
             {
@@ -100,7 +101,7 @@ namespace NTOSFIleSeeker
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\drivers\\";
                 log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
                 for (int i = 0; i < windows_system_path.Length; i++)
-                    log.Trace(" PAth  found " + windows_system_path[i]);
+                    log.Trace(" Path  found " + windows_system_path[i]);
             }
 
             log.Info("Status seems ok");
@@ -109,20 +110,19 @@ namespace NTOSFIleSeeker
             notifyIcon1.BalloonTipTitle = " NTOSFILESEEKER";
             notifyIcon1.Icon = this.Icon;
             notifyIcon1.Visible = true;
-
             txt_path_build.Focus();
             btn_copy.Enabled = false;
 
             log.Info("Notification did its job");
 
+            listfiles = new string[] { "ntoskrnl.exe", "hal.dll", "dxgmms1.sys", "dxgmms2.sys" , "dxgkrnl.sys", "watchdog.sys", "mssmbios.sys" };
+
             try
             {
-                pattern_files.Add("ntoskrnl.exe");
-                pattern_files.Add("hal.dll");
-                pattern_files.Add("dxgmms1.sys");
-                pattern_files.Add("dxgmms2.sys");
-                pattern_files.Add("dxgkrnl.sys");
-                pattern_files.Add("watchdog.sys");
+                for (int i = 0; i < listfiles.Length; i++)
+                {
+                    pattern_files.Add(listfiles[i]);
+                }
             }
             catch (Exception ex)
             {
@@ -163,7 +163,7 @@ namespace NTOSFIleSeeker
                     foreach ( string file in Directory.GetFiles(path, ext) )
                     {
                         full_path.Add(file);
-                        log.Info(" File path :" + file);
+                        log.Info(" File path : " + file);
                     }
                 }
 
@@ -181,7 +181,7 @@ namespace NTOSFIleSeeker
                 save_folder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + txt_path_build.Text + "\\" + arch_folder;
                 if ( Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)) )
                 {
-                    log.Trace("Call : btn_copy_click, Desktop folder is" + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) );
+                    log.Trace("Called : btn_copy_Click, Desktop folder is " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) );
                     if (Directory.Exists(save_folder) == false)
                     {
                         Directory.CreateDirectory(save_folder);
