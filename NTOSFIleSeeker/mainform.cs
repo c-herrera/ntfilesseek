@@ -30,6 +30,7 @@ namespace NTOSFIleSeeker
         string info;
 
         SimpleLogger log;
+        Tool_Config tool_options;
 
         enum system_path_files
         {
@@ -45,7 +46,8 @@ namespace NTOSFIleSeeker
         private void frm_copy_sys_Load(object sender, EventArgs e)
         {
             log = new SimpleLogger();
-
+            tool_options = new Tool_Config();
+            
             log.Info(" Application form load");
             log.Info(" Trying to get Admin privileges");
             if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
@@ -115,7 +117,7 @@ namespace NTOSFIleSeeker
 
             log.Info("Notification did its job");
 
-            listfiles = new string[] { "ntoskrnl.exe", "hal.dll", "dxgmms1.sys", "dxgmms2.sys" , "dxgkrnl.sys", "watchdog.sys", "mssmbios.sys" };
+            listfiles = tool_options.Files;
 
             try
             {
@@ -158,8 +160,10 @@ namespace NTOSFIleSeeker
 
             foreach ( string ext in pattern_files )
             {
+                log.Trace("Searching for " + ext);
                 foreach ( string path in windows_system_path )
                 {
+                    log.Trace("Looking in path :" + path);
                     foreach ( string file in Directory.GetFiles(path, ext) )
                     {
                         full_path.Add(file);
