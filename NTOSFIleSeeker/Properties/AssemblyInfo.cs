@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NTOSFIleSeeker")]
 [assembly: AssemblyDescription("Tool to seek and copy specific nt system files")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Intel")]
+[assembly: AssemblyCompany("-----")]
 [assembly: AssemblyProduct("NTOSFIleSeeker")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
