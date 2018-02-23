@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace NTOSFIleSeeker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.IO;
-    using System.Reflection;
+
 
 
     public class SimpleLogger
     {
         private string DatetimeFormat;
         private string Filename;
+
+
+        /// <summary>
+        /// Supported log level
+        /// </summary>
+        [Flags]
+        private enum LogLevel
+        {
+            TRACE, INFO,DEBUG,WARNING,ERROR, FATAL
+        }
 
         /// <summary>
         /// Initialize a new instance of SimpleLogger class.
@@ -154,19 +160,7 @@ namespace NTOSFIleSeeker
             }
         }
 
-        /// <summary>
-        /// Supported log level
-        /// </summary>
-        [Flags]
-        private enum LogLevel
-        {
-            TRACE,
-            INFO,
-            DEBUG,
-            WARNING,
-            ERROR,
-            FATAL
-        }
+
     }
 
 }

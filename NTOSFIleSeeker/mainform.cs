@@ -93,6 +93,7 @@ namespace NTOSFIleSeeker
                 windows_system_path[0] = Environment.GetFolderPath(Environment.SpecialFolder.System);
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\drivers\\";
                 log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
+                log.Warning("System is 64 bits, this may change the files path");
                 for (int i = 0; i < windows_system_path.Length; i++)
                     log.Trace("Path  found " + windows_system_path[i]);
             }
@@ -102,12 +103,12 @@ namespace NTOSFIleSeeker
                 windows_system_path[0] = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86);
                 windows_system_path[1] = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\drivers\\";
                 log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
+                log.Warning("System is not 64 bits, this may change the files path");
                 for (int i = 0; i < windows_system_path.Length; i++)
                     log.Trace(" Path  found " + windows_system_path[i]);
             }
 
             log.Info("Status seems ok");
-
 
             notifyIcon1.BalloonTipTitle = " NTOSFILESEEKER";
             notifyIcon1.Icon = this.Icon;
@@ -125,6 +126,11 @@ namespace NTOSFIleSeeker
                 {
                     pattern_files.Add(listfiles[i]);
                 }
+
+                if (pattern_files.Count > 0)
+                    log.Trace("List of files copied to search pattern");
+                else
+                    log.Error("Not enough files to search, unexepected ehaviour");
             }
             catch (Exception ex)
             {
@@ -190,6 +196,7 @@ namespace NTOSFIleSeeker
                     {
                         Directory.CreateDirectory(save_folder);
                         log.Trace("Save folder created succesfully.");
+                        log.Trace("Current save path is " + save_folder);
                     }
                     
                 }
@@ -199,7 +206,7 @@ namespace NTOSFIleSeeker
                     foreach ( string file in full_path )
                     {
                         File.Copy(file, save_folder + "\\" + Path.GetFileName(file), true);
-                        log.Trace("Copying file " + file);
+                        log.Trace("Copying file " + file + " To  ==>" + save_folder); 
                     }
 
                     notifyIcon1.BalloonTipText = " Process is done, check the files on the Desktop folder";
