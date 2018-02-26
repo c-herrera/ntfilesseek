@@ -42,9 +42,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.rd_default_files = new System.Windows.Forms.RadioButton();
+            this.rd_custom_opt = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_copy
@@ -122,7 +126,8 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(-4, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(343, 276);
@@ -171,6 +176,40 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.rd_custom_opt);
+            this.tabPage3.Controls.Add(this.rd_default_files);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(335, 250);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Options";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // rd_default_files
+            // 
+            this.rd_default_files.AutoSize = true;
+            this.rd_default_files.Location = new System.Drawing.Point(12, 20);
+            this.rd_default_files.Name = "rd_default_files";
+            this.rd_default_files.Size = new System.Drawing.Size(111, 17);
+            this.rd_default_files.TabIndex = 0;
+            this.rd_default_files.TabStop = true;
+            this.rd_default_files.Text = "Use default option";
+            this.rd_default_files.UseVisualStyleBackColor = true;
+            // 
+            // rd_custom_opt
+            // 
+            this.rd_custom_opt.AutoSize = true;
+            this.rd_custom_opt.Location = new System.Drawing.Point(12, 55);
+            this.rd_custom_opt.Name = "rd_custom_opt";
+            this.rd_custom_opt.Size = new System.Drawing.Size(85, 17);
+            this.rd_custom_opt.TabIndex = 1;
+            this.rd_custom_opt.TabStop = true;
+            this.rd_custom_opt.Text = "radioButton1";
+            this.rd_custom_opt.UseVisualStyleBackColor = true;
+            // 
             // frm_copy_sys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -188,6 +227,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -206,6 +247,9 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox txt_info;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.RadioButton rd_custom_opt;
+        private System.Windows.Forms.RadioButton rd_default_files;
     }
 }
 

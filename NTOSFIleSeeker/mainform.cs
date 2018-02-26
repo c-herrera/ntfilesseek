@@ -135,6 +135,7 @@ namespace NTOSFIleSeeker
             catch (Exception ex)
             {
                 log.Debug("Error while trying to set the required pattern of files");
+                log.Debug("Error from exception" + ex.Message);
             }
 
             info += "NTOSFileSeeker v" + Application.ProductVersion + Environment.NewLine;
