@@ -15,11 +15,11 @@ namespace NTOSFIleSeeker
     class Tool_Config
     {
         private string[] Filelist;
+        private string[] CustomList;
 
-        private bool use_default_options;
-        private bool use_custom_filelist;
         private bool opt_default_conf;
         private bool opt_custom_files;
+        private bool conf_file_present;
 
         /// <summary>
         /// Class constructor, no overloaded.
@@ -39,6 +39,7 @@ namespace NTOSFIleSeeker
             // Make default string if file does not exist
             string defopt = "true";
             string custopt = "false";
+            string custlist = "dummy.1st,dummy.2nd";
             string temp = "ntoskrnl.exe,hal.dll,dxgmms1.sys,dxgmms2.sys,dxgkrnl.sys,watchdog.sys,mssmbios.sys";
             string list = new string (temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
 
@@ -46,8 +47,13 @@ namespace NTOSFIleSeeker
             if (File.Exists("seeker.conf") == false)
             {
                 IniFileHelper.WriteValue("files", "ntcorefiles", list, ".\\seeker.conf");
+                IniFileHelper.WriteValue("files", "customlist", custlist , ".\\seeker.conf");
                 IniFileHelper.WriteValue("options", "default_files", defopt, ".\\seeker.conf");
                 IniFileHelper.WriteValue("options", "custom_files", custopt, ".\\seeker.conf");
+            }
+            else
+            {
+                conf_file_present = true;
             }
         }
 
@@ -68,15 +74,22 @@ namespace NTOSFIleSeeker
                 pass = new string(temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
                 Filelist = pass.Split(',');
 
+                temp = IniFileHelper.ReadValue("files", "customlist", ".\\seeker.conf");
+                pass = new string(temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
+                CustomList = pass.Split(',');
+
                 value = IniFileHelper.ReadValue("options", "default_files", ".\\seeker.conf").ToLower();
                 if (value.Contains("true"))
                     opt_default_conf = true;
                 value = IniFileHelper.ReadValue("options", "custom_files", ".\\seeker.conf").ToLower();
                 if (value.Contains("true"))
                     opt_custom_files = true;
+
+                conf_file_present = true;
             }
             else // Create a defauilt config file
             {
+                conf_file_present = false;
                 CreateDefaultConfig();
             }
         }
@@ -85,9 +98,22 @@ namespace NTOSFIleSeeker
         /// Saves all parameters from UI to a file
         /// </summary>
         public void SaveConfiguration()
-        {
-            IniFileHelper.WriteValue("files", "default_files", opt_default_conf.ToString(), ".\\seeker.conf");
-            IniFileHelper.WriteValue("files", "custom_files", opt_custom_files.ToString(), ".\\seeker.conf");
+        {            
+
+            if (File.Exists("seeker.conf"))
+            {
+                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), ".\\seeker.conf");
+                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), ".\\seeker.conf");
+                //IniFileHelper.WriteValue("files", "customlist", CustomList.ToString(), ".\\seeker.conf");
+            }
+            else
+            {
+                conf_file_present = false;
+                CreateDefaultConfig();
+                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), ".\\seeker.conf");
+                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), ".\\seeker.conf");
+            }
+
         }
 
         #region Accesors
@@ -98,6 +124,12 @@ namespace NTOSFIleSeeker
         public string[] Files
         {
             get { return Filelist; }
+        }
+
+
+        public string[] CustomFiles
+        {
+            set { CustomList = value; }
         }
 
         /// <summary>
@@ -118,7 +150,13 @@ namespace NTOSFIleSeeker
             set { opt_custom_files = value; }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool conf_file_exist
+        {
+            get { return conf_file_present; }
+        }
         #endregion
 
     }
