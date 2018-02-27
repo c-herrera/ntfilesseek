@@ -46,38 +46,38 @@ namespace NTOSFIleSeeker
         private void frm_copy_sys_Load(object sender, EventArgs e)
         {
             log = new SimpleLogger();
-            tool_options = new Tool_Config();
+            tool_options = new Tool_Config();            
             
             log.Info(" Application form load");
             log.Info(" Trying to get Admin privileges");
-            if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
-            {
-                try
-                {
-                    this.Visible = false;
-                    ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
-                    info.UseShellExecute = true;
-                    info.Verb = "runas";   // invoke UAC prompt
-                    Process.Start(info);
-                    log.Info("Application has admin privileges");
-                }
-                catch (Win32Exception ex)
-                {
-                    if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
-                    {
-                        MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        log.Debug("Canceled the Admin privileges");
-                        Application.Exit();
-                    }
-                    else
-                        throw new Exception("Something went wrong :-(");
-                }
-                Application.Exit();
-            }
-            else
-            {
-                log.Info("I have admin privileges :-)");
-            }
+            //if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
+            //{
+            //    try
+            //    {
+            //        this.Visible = false;
+            //        ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
+            //        info.UseShellExecute = true;
+            //        info.Verb = "runas";   // invoke UAC prompt
+            //        Process.Start(info);
+            //        log.Info("Application has admin privileges");
+            //    }
+            //    catch (Win32Exception ex)
+            //    {
+            //        if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
+            //        {
+            //            MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //            log.Debug("Canceled the Admin privileges");
+            //            Application.Exit();
+            //        }
+            //        else
+            //            throw new Exception("Something went wrong :-(");
+            //    }
+            //    Application.Exit();
+            //}
+            //else
+            //{
+            //    log.Info("I have admin privileges :-)");
+            //}
 
             status += "App is on" + Environment.NewLine;
 
@@ -238,6 +238,36 @@ namespace NTOSFIleSeeker
         {
             log.Info("Application exit.");
             Application.Exit();
+        }
+
+        private void rd_default_files_CheckedChanged(object sender, EventArgs e)
+        {
+            txt_filelist.Enabled = false;
+
+            tool_options.set_use_default_options = true;
+            tool_options.set_custom_filenames = false;
+        }
+
+        private void rd_custom_opt_CheckedChanged(object sender, EventArgs e)
+        {
+            txt_filelist.Enabled = true;
+
+            tool_options.set_use_default_options = false;
+            tool_options.set_custom_filenames = true;
+        }
+
+        private void btn_apply_conf_Click(object sender, EventArgs e)
+        {            
+            if (txt_filelist.Text == string.Empty)
+            {
+                tool_options.CustomFiles = new string[1] { "" };
+                log.Warning("Textbox for file list is empty");
+            }
+            else
+            {
+                log.Info("Writing custom file values to file");
+            }
+            tool_options.SaveConfiguration();
         }
     }
 }

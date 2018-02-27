@@ -41,10 +41,13 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txt_info = new System.Windows.Forms.TextBox();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.rd_custom_opt = new System.Windows.Forms.RadioButton();
+            this.rd_default_files = new System.Windows.Forms.RadioButton();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.txt_filelist = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_apply_conf = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -170,14 +173,11 @@
             this.txt_info.Size = new System.Drawing.Size(291, 193);
             this.txt_info.TabIndex = 0;
             // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btn_apply_conf);
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.txt_filelist);
             this.tabPage3.Controls.Add(this.rd_custom_opt);
             this.tabPage3.Controls.Add(this.rd_default_files);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -188,9 +188,22 @@
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // rd_custom_opt
+            // 
+            this.rd_custom_opt.AutoSize = true;
+            this.rd_custom_opt.Location = new System.Drawing.Point(12, 55);
+            this.rd_custom_opt.Name = "rd_custom_opt";
+            this.rd_custom_opt.Size = new System.Drawing.Size(96, 17);
+            this.rd_custom_opt.TabIndex = 1;
+            this.rd_custom_opt.TabStop = true;
+            this.rd_custom_opt.Text = "Use custom list";
+            this.rd_custom_opt.UseVisualStyleBackColor = true;
+            this.rd_custom_opt.CheckedChanged += new System.EventHandler(this.rd_custom_opt_CheckedChanged);
+            // 
             // rd_default_files
             // 
             this.rd_default_files.AutoSize = true;
+            this.rd_default_files.Checked = true;
             this.rd_default_files.Location = new System.Drawing.Point(12, 20);
             this.rd_default_files.Name = "rd_default_files";
             this.rd_default_files.Size = new System.Drawing.Size(111, 17);
@@ -198,17 +211,40 @@
             this.rd_default_files.TabStop = true;
             this.rd_default_files.Text = "Use default option";
             this.rd_default_files.UseVisualStyleBackColor = true;
+            this.rd_default_files.CheckedChanged += new System.EventHandler(this.rd_default_files_CheckedChanged);
             // 
-            // rd_custom_opt
+            // notifyIcon1
             // 
-            this.rd_custom_opt.AutoSize = true;
-            this.rd_custom_opt.Location = new System.Drawing.Point(12, 55);
-            this.rd_custom_opt.Name = "rd_custom_opt";
-            this.rd_custom_opt.Size = new System.Drawing.Size(85, 17);
-            this.rd_custom_opt.TabIndex = 1;
-            this.rd_custom_opt.TabStop = true;
-            this.rd_custom_opt.Text = "radioButton1";
-            this.rd_custom_opt.UseVisualStyleBackColor = true;
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
+            // txt_filelist
+            // 
+            this.txt_filelist.Enabled = false;
+            this.txt_filelist.Location = new System.Drawing.Point(12, 136);
+            this.txt_filelist.Name = "txt_filelist";
+            this.txt_filelist.Size = new System.Drawing.Size(298, 20);
+            this.txt_filelist.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 103);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(169, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Type the files you want to search :";
+            // 
+            // btn_apply_conf
+            // 
+            this.btn_apply_conf.Location = new System.Drawing.Point(15, 209);
+            this.btn_apply_conf.Name = "btn_apply_conf";
+            this.btn_apply_conf.Size = new System.Drawing.Size(75, 23);
+            this.btn_apply_conf.TabIndex = 4;
+            this.btn_apply_conf.Text = "Apply";
+            this.btn_apply_conf.UseVisualStyleBackColor = true;
+            this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
             // 
             // frm_copy_sys
             // 
@@ -250,6 +286,9 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.RadioButton rd_custom_opt;
         private System.Windows.Forms.RadioButton rd_default_files;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txt_filelist;
+        private System.Windows.Forms.Button btn_apply_conf;
     }
 }
 
