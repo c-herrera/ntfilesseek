@@ -30,7 +30,7 @@ namespace NTOSFIleSeeker
         string info;
 
         SimpleLogger log;
-        Tool_Config tool_options;
+        Tool_Config options;
 
         enum system_path_files
         {
@@ -46,10 +46,14 @@ namespace NTOSFIleSeeker
         private void frm_copy_sys_Load(object sender, EventArgs e)
         {
             log = new SimpleLogger();
-            tool_options = new Tool_Config();            
+            options = new Tool_Config();            
             
             log.Info(" Application form load");
             log.Info(" Trying to get Admin privileges");
+
+            rd_default_files.Checked = options.set_use_default_options;
+            rd_custom_opt.Checked = options.set_custom_filenames;
+
             //if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
             //{
             //    try
@@ -116,16 +120,13 @@ namespace NTOSFIleSeeker
             txt_path_build.Focus();
             btn_copy.Enabled = false;
 
-            rd_default_files.Checked = tool_options.set_use_default_options;
-            rd_custom_opt.Checked = tool_options.set_custom_filenames;
-
             log.Info("Notification did its job");
 
-            if (tool_options.set_use_default_options == true)
-                listfiles = tool_options.Files;
+            if (options.set_use_default_options == true)
+                listfiles = options.Files;
 
-            if (tool_options.set_custom_filenames == true)
-               listfiles = tool_options.CustomFiles;
+            if (options.set_custom_filenames == true)
+               listfiles = options.CustomFiles;
 
             try
             {
@@ -172,20 +173,30 @@ namespace NTOSFIleSeeker
             full_path = new List<string>();
             full_path.Clear();
 
-            foreach ( string ext in pattern_files )
+            try
             {
-                log.Trace("Searching for " + ext);
-                foreach ( string path in windows_system_path )
+                foreach (string ext in pattern_files)
                 {
-                    log.Trace("Looking in path :" + path);
-                    foreach ( string file in Directory.GetFiles(path, ext) )
+                    log.Trace("Searching for " + ext);
+                    foreach (string path in windows_system_path)
                     {
-                        full_path.Add(file);
-                        log.Info(" File path : " + file);
+                        log.Trace("Looking in path :" + path);
+                        foreach (string file in Directory.GetFiles(path, ext))
+                        {
+                            full_path.Add(file);
+                            log.Info(" File path : " + file);
+                        }
                     }
-                }
 
+                }
             }
+            catch (Exception ex)
+            {
+                log.Error("An error ocurred while loading files call is  frm_copy_sys::btn_search_Click");
+                MessageBox.Show("Error message" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+
 
             lst_files.Items.Clear();
             lst_files.DataSource = full_path;
@@ -251,31 +262,31 @@ namespace NTOSFIleSeeker
         {
             txt_filelist.Enabled = false;
 
-            tool_options.set_use_default_options = true;
-            tool_options.set_custom_filenames = false;
         }
 
         private void rd_custom_opt_CheckedChanged(object sender, EventArgs e)
         {
             txt_filelist.Enabled = true;
 
-            tool_options.set_use_default_options = false;
-            tool_options.set_custom_filenames = true;
         }
 
         private void btn_apply_conf_Click(object sender, EventArgs e)
         {
-            if (txt_filelist.Text == string.Empty)
+            if (txt_filelist.Text == string.Empty || txt_filelist.Text.Length ==0 )
             {
-                tool_options.CustomFiles = new string[1] { "" };
+                options.CustomFiles = new string[1] { "" };
                 log.Warning("Textbox for file list is empty");
             }
             else
             {
-                tool_options.CustomFiles = txt_filelist.Text.Split(',');
+                options.CustomFiles = txt_filelist.Text.Split(',');
                 log.Info("Writing custom file values to file");
             }
-            tool_options.SaveConfiguration();
+
+            options.set_custom_filenames = rd_custom_opt.Checked;
+            options.set_use_default_options = rd_default_files.Checked;
+
+            options.SaveConfiguration();
         }
     }
 }
