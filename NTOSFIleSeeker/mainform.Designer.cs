@@ -42,12 +42,12 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_apply_conf = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txt_filelist = new System.Windows.Forms.TextBox();
             this.rd_custom_opt = new System.Windows.Forms.RadioButton();
             this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.txt_filelist = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btn_apply_conf = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -188,6 +188,33 @@
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btn_apply_conf
+            // 
+            this.btn_apply_conf.Location = new System.Drawing.Point(15, 209);
+            this.btn_apply_conf.Name = "btn_apply_conf";
+            this.btn_apply_conf.Size = new System.Drawing.Size(75, 23);
+            this.btn_apply_conf.TabIndex = 4;
+            this.btn_apply_conf.Text = "Apply";
+            this.btn_apply_conf.UseVisualStyleBackColor = true;
+            this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 103);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(169, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Type the files you want to search :";
+            // 
+            // txt_filelist
+            // 
+            this.txt_filelist.Enabled = false;
+            this.txt_filelist.Location = new System.Drawing.Point(12, 136);
+            this.txt_filelist.Name = "txt_filelist";
+            this.txt_filelist.Size = new System.Drawing.Size(298, 20);
+            this.txt_filelist.TabIndex = 2;
+            // 
             // rd_custom_opt
             // 
             this.rd_custom_opt.AutoSize = true;
@@ -218,33 +245,6 @@
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
-            // 
-            // txt_filelist
-            // 
-            this.txt_filelist.Enabled = false;
-            this.txt_filelist.Location = new System.Drawing.Point(12, 136);
-            this.txt_filelist.Name = "txt_filelist";
-            this.txt_filelist.Size = new System.Drawing.Size(298, 20);
-            this.txt_filelist.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 103);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Type the files you want to search :";
-            // 
-            // btn_apply_conf
-            // 
-            this.btn_apply_conf.Location = new System.Drawing.Point(15, 209);
-            this.btn_apply_conf.Name = "btn_apply_conf";
-            this.btn_apply_conf.Size = new System.Drawing.Size(75, 23);
-            this.btn_apply_conf.TabIndex = 4;
-            this.btn_apply_conf.Text = "Apply";
-            this.btn_apply_conf.UseVisualStyleBackColor = true;
-            this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
             // 
             // frm_copy_sys
             // 
