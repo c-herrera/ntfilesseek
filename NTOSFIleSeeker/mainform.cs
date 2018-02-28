@@ -116,9 +116,16 @@ namespace NTOSFIleSeeker
             txt_path_build.Focus();
             btn_copy.Enabled = false;
 
+            rd_default_files.Checked = tool_options.set_use_default_options;
+            rd_custom_opt.Checked = tool_options.set_custom_filenames;
+
             log.Info("Notification did its job");
 
-            listfiles = tool_options.Files;
+            if (tool_options.set_use_default_options == true)
+                listfiles = tool_options.Files;
+
+            if (tool_options.set_custom_filenames == true)
+               listfiles = tool_options.CustomFiles;
 
             try
             {
@@ -257,7 +264,7 @@ namespace NTOSFIleSeeker
         }
 
         private void btn_apply_conf_Click(object sender, EventArgs e)
-        {            
+        {
             if (txt_filelist.Text == string.Empty)
             {
                 tool_options.CustomFiles = new string[1] { "" };
@@ -265,6 +272,7 @@ namespace NTOSFIleSeeker
             }
             else
             {
+                tool_options.CustomFiles = txt_filelist.Text.Split(',');
                 log.Info("Writing custom file values to file");
             }
             tool_options.SaveConfiguration();

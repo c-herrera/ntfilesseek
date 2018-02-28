@@ -104,7 +104,7 @@ namespace NTOSFIleSeeker
             {
                 IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), ".\\seeker.conf");
                 IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), ".\\seeker.conf");
-                //IniFileHelper.WriteValue("files", "customlist", CustomList.ToString(), ".\\seeker.conf");
+                IniFileHelper.WriteValue("files", "customlist", string.Join(",",CustomList) , ".\\seeker.conf");                
             }
             else
             {
@@ -129,6 +129,7 @@ namespace NTOSFIleSeeker
 
         public string[] CustomFiles
         {
+            get { return CustomList; }
             set { CustomList = value; }
         }
 
