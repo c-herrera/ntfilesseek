@@ -20,12 +20,22 @@ namespace NTOSFIleSeeker
         private bool opt_default_conf;
         private bool opt_custom_files;
         private bool conf_file_present;
+        private string conf_file_path;
+        private string default_list_bvalue;
+        private string default_list_string;
+        private string custom_list_bvalue;
+        private string custom_list_string;
 
         /// <summary>
         /// Class constructor, no overloaded.
         /// </summary>
         public Tool_Config()
         {
+            default_list_bvalue = Boolean.TrueString.ToLower();
+            custom_list_bvalue = Boolean.FalseString.ToLower();
+            custom_list_string = "dummy.1st,dummy.2nd";
+            
+            conf_file_path = ".//" + Application.ProductName + "_config.conf";
             CreateDefaultConfig();
             LoadConfiguration();
 
@@ -37,19 +47,16 @@ namespace NTOSFIleSeeker
         private void CreateDefaultConfig()
         {
             // Make default string if file does not exist
-            string defopt = "true";
-            string custopt = "false";
-            string custlist = "dummy.1st,dummy.2nd";
             string temp = "ntoskrnl.exe,hal.dll,dxgmms1.sys,dxgmms2.sys,dxgkrnl.sys,watchdog.sys,mssmbios.sys";
-            string list = new string (temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
+            default_list_string = new string (temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
 
             // Create file if it doesnt exist
-            if (File.Exists("seeker.conf") == false)
+            if (File.Exists(conf_file_path) == false)
             {
-                IniFileHelper.WriteValue("files", "ntcorefiles", list, ".\\seeker.conf");
-                IniFileHelper.WriteValue("files", "customlist", custlist , ".\\seeker.conf");
-                IniFileHelper.WriteValue("options", "default_files", defopt, ".\\seeker.conf");
-                IniFileHelper.WriteValue("options", "custom_files", custopt, ".\\seeker.conf");
+                IniFileHelper.WriteValue("files", "ntcorefiles", default_list_string, conf_file_path);
+                IniFileHelper.WriteValue("files", "customlist", custom_list_string , conf_file_path);
+                IniFileHelper.WriteValue("options", "default_files", default_list_bvalue, conf_file_path);
+                IniFileHelper.WriteValue("options", "custom_files", custom_list_bvalue, conf_file_path);
             }
             else
             {
@@ -68,20 +75,20 @@ namespace NTOSFIleSeeker
             string value = string.Empty;
 
             // Config files must exist, if not found
-            if (File.Exists ("seeker.conf") == true)
+            if (File.Exists (conf_file_path) == true)
             {
-                temp = IniFileHelper.ReadValue("files", "ntcorefiles", ".\\seeker.conf");
+                temp = IniFileHelper.ReadValue("files", "ntcorefiles", conf_file_path);
                 pass = new string(temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
                 Filelist = pass.Split(',');
 
-                temp = IniFileHelper.ReadValue("files", "customlist", ".\\seeker.conf");
+                temp = IniFileHelper.ReadValue("files", "customlist", conf_file_path);
                 pass = new string(temp.Where(c => !Char.IsWhiteSpace(c)).ToArray());
                 CustomList = pass.Split(',');
 
-                value = IniFileHelper.ReadValue("options", "default_files", ".\\seeker.conf").ToLower();
+                value = IniFileHelper.ReadValue("options", "default_files", conf_file_path).ToLower();
                 if (value.Contains("true"))
                     opt_default_conf = true;
-                value = IniFileHelper.ReadValue("options", "custom_files", ".\\seeker.conf").ToLower();
+                value = IniFileHelper.ReadValue("options", "custom_files", conf_file_path).ToLower();
                 if (value.Contains("true"))
                     opt_custom_files = true;
 
@@ -98,20 +105,19 @@ namespace NTOSFIleSeeker
         /// Saves all parameters from UI to a file
         /// </summary>
         public void SaveConfiguration()
-        {            
-
-            if (File.Exists("seeker.conf"))
+        {                       
+            if (File.Exists(conf_file_path))
             {
-                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), ".\\seeker.conf");
-                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), ".\\seeker.conf");
-                IniFileHelper.WriteValue("files", "customlist", string.Join(",",CustomList) , ".\\seeker.conf");                
+                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), conf_file_path);
+                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), conf_file_path);
+                IniFileHelper.WriteValue("files", "customlist", string.Join(",",CustomList) , conf_file_path);                
             }
             else
             {
                 conf_file_present = false;
                 CreateDefaultConfig();
-                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), ".\\seeker.conf");
-                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), ".\\seeker.conf");
+                IniFileHelper.WriteValue("options", "default_files", opt_default_conf.ToString().ToLower(), conf_file_path);
+                IniFileHelper.WriteValue("options", "custom_files", opt_custom_files.ToString().ToLower(), conf_file_path);
             }
 
         }
@@ -121,38 +127,40 @@ namespace NTOSFIleSeeker
         /// <summary>
         /// Return in read mode only the array of files to copy
         /// </summary>
-        public string[] Files
+        public string[] DefaultFilenames
         {
             get { return Filelist; }
         }
 
-
-        public string[] CustomFiles
+        /// <summary>
+        /// Can set or get the custom file names array string.
+        /// </summary>
+        public string[] CustomFilenames
         {
             get { return CustomList; }
             set { CustomList = value; }
         }
 
         /// <summary>
-        /// 
+        /// Can set or get the state for default file names option
         /// </summary>
-        public bool set_use_default_options
+        public bool using_default_filenames
         {
             get { return opt_default_conf; }
             set { opt_default_conf = value; }
         }
 
         /// <summary>
-        /// 
+        /// Can set and get the state of the custom file names option
         /// </summary>
-        public bool set_custom_filenames
+        public bool Using_custom_filenames
         {
             get { return opt_custom_files; }
             set { opt_custom_files = value; }
         }
 
         /// <summary>
-        /// 
+        /// Value returned if configuratio file exist. Read only
         /// </summary>
         public bool conf_file_exist
         {

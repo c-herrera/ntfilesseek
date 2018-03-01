@@ -43,11 +43,12 @@
             this.txt_info = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btn_apply_conf = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_file_notice = new System.Windows.Forms.Label();
             this.txt_filelist = new System.Windows.Forms.TextBox();
             this.rd_custom_opt = new System.Windows.Forms.RadioButton();
             this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -130,6 +131,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.Location = new System.Drawing.Point(-4, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -144,10 +146,11 @@
             this.tabPage1.Controls.Add(this.txt_path_build);
             this.tabPage1.Controls.Add(this.btn_search);
             this.tabPage1.Controls.Add(this.lst_files);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.ImageIndex = 0;
+            this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(335, 250);
+            this.tabPage1.Size = new System.Drawing.Size(335, 249);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -155,10 +158,11 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.txt_info);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.ImageIndex = 1;
+            this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(335, 250);
+            this.tabPage2.Size = new System.Drawing.Size(335, 249);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "About";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -176,14 +180,15 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.btn_apply_conf);
-            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.lbl_file_notice);
             this.tabPage3.Controls.Add(this.txt_filelist);
             this.tabPage3.Controls.Add(this.rd_custom_opt);
             this.tabPage3.Controls.Add(this.rd_default_files);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.ImageIndex = 2;
+            this.tabPage3.Location = new System.Drawing.Point(4, 23);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(335, 250);
+            this.tabPage3.Size = new System.Drawing.Size(335, 249);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -198,14 +203,14 @@
             this.btn_apply_conf.UseVisualStyleBackColor = true;
             this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
             // 
-            // label1
+            // lbl_file_notice
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 103);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Type the files you want to search :";
+            this.lbl_file_notice.AutoSize = true;
+            this.lbl_file_notice.Location = new System.Drawing.Point(12, 103);
+            this.lbl_file_notice.Name = "lbl_file_notice";
+            this.lbl_file_notice.Size = new System.Drawing.Size(10, 13);
+            this.lbl_file_notice.TabIndex = 3;
+            this.lbl_file_notice.Text = "-";
             // 
             // txt_filelist
             // 
@@ -245,6 +250,14 @@
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Audio-Cd-icon.png");
+            this.imageList1.Images.SetKeyName(1, "Document-Text-icon.png");
+            this.imageList1.Images.SetKeyName(2, "Tools-icon.png");
             // 
             // frm_copy_sys
             // 
@@ -286,9 +299,10 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.RadioButton rd_custom_opt;
         private System.Windows.Forms.RadioButton rd_default_files;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_file_notice;
         private System.Windows.Forms.TextBox txt_filelist;
         private System.Windows.Forms.Button btn_apply_conf;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

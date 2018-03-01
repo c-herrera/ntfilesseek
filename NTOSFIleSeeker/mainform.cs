@@ -48,40 +48,40 @@ namespace NTOSFIleSeeker
             log = new SimpleLogger();
             options = new Tool_Config();            
             
-            log.Info(" Application form load");
-            log.Info(" Trying to get Admin privileges");
+            log.Info("Application form load");
+            log.Info("Trying to get Admin privileges");
 
-            rd_default_files.Checked = options.set_use_default_options;
-            rd_custom_opt.Checked = options.set_custom_filenames;
+            rd_default_files.Checked = options.using_default_filenames;
+            rd_custom_opt.Checked = options.Using_custom_filenames;
 
-            //if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
-            //{
-            //    try
-            //    {
-            //        this.Visible = false;
-            //        ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
-            //        info.UseShellExecute = true;
-            //        info.Verb = "runas";   // invoke UAC prompt
-            //        Process.Start(info);
-            //        log.Info("Application has admin privileges");
-            //    }
-            //    catch (Win32Exception ex)
-            //    {
-            //        if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
-            //        {
-            //            MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //            log.Debug("Canceled the Admin privileges");
-            //            Application.Exit();
-            //        }
-            //        else
-            //            throw new Exception("Something went wrong :-(");
-            //    }
-            //    Application.Exit();
-            //}
-            //else
-            //{
-            //    log.Info("I have admin privileges :-)");
-            //}
+            if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
+            {
+                try
+                {
+                    this.Visible = false;
+                    ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
+                    info.UseShellExecute = true;
+                    info.Verb = "runas";   // invoke UAC prompt
+                    Process.Start(info);
+                    log.Info("Application has admin privileges");
+                }
+                catch (Win32Exception ex)
+                {
+                    if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
+                    {
+                        MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        log.Debug("Canceled the Admin privileges");
+                        Application.Exit();
+                    }
+                    else
+                        throw new Exception("Something went wrong :-(");
+                }
+                Application.Exit();
+            }
+            else
+            {
+                log.Info("I have admin privileges :-)");
+            }
 
             status += "App is on" + Environment.NewLine;
 
@@ -109,7 +109,7 @@ namespace NTOSFIleSeeker
                 log.Trace("64 bit system ?:" + Environment.Is64BitOperatingSystem);
                 log.Warning("System is not 64 bits, this may change the files path");
                 for (int i = 0; i < windows_system_path.Length; i++)
-                    log.Trace(" Path  found " + windows_system_path[i]);
+                    log.Trace("Path  found " + windows_system_path[i]);
             }
 
             log.Info("Status seems ok");
@@ -122,11 +122,11 @@ namespace NTOSFIleSeeker
 
             log.Info("Notification did its job");
 
-            if (options.set_use_default_options == true)
-                listfiles = options.Files;
+            if (options.using_default_filenames == true)
+                listfiles = options.DefaultFilenames;
 
-            if (options.set_custom_filenames == true)
-               listfiles = options.CustomFiles;
+            if (options.Using_custom_filenames == true)
+               listfiles = options.CustomFilenames;
 
             try
             {
@@ -170,8 +170,35 @@ namespace NTOSFIleSeeker
             if (lst_files.Items.Count == 0)
                 log.Trace("No lines is the list box");
 
+            pattern_files.Clear();
+
             full_path = new List<string>();
             full_path.Clear();
+
+            // Load on demand the file list
+            if (rd_default_files.Checked == true)
+                listfiles = options.DefaultFilenames;
+
+            if (rd_custom_opt.Checked == true)
+                listfiles = options.CustomFilenames;
+
+            try
+            {
+                for (int i = 0; i < listfiles.Length; i++)
+                {
+                    pattern_files.Add(listfiles[i]);
+                }
+
+                if (pattern_files.Count > 0)
+                    log.Trace("List of files copied to search pattern");
+                else
+                    log.Error("Not enough files to search, unexepected ehaviour");
+            }
+            catch (Exception ex)
+            {
+                log.Debug("Error while trying to set the required pattern of files");
+                log.Debug("Error from exception" + ex.Message);
+            }
 
             try
             {
@@ -195,8 +222,6 @@ namespace NTOSFIleSeeker
                 log.Error("An error ocurred while loading files call is  frm_copy_sys::btn_search_Click");
                 MessageBox.Show("Error message" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-
 
             lst_files.Items.Clear();
             lst_files.DataSource = full_path;
@@ -261,31 +286,43 @@ namespace NTOSFIleSeeker
         private void rd_default_files_CheckedChanged(object sender, EventArgs e)
         {
             txt_filelist.Enabled = false;
+            txt_filelist.ReadOnly = true;
+
+            lbl_file_notice.Text = "Using default list";
+            txt_filelist.Text = string.Join(",", options.DefaultFilenames);
+
+            log.Trace("Switched to default");
 
         }
 
         private void rd_custom_opt_CheckedChanged(object sender, EventArgs e)
         {
             txt_filelist.Enabled = true;
+            txt_filelist.ReadOnly = false;
 
+            lbl_file_notice.Text = "Using Custom list";
+            txt_filelist.Text = string.Join(",", options.CustomFilenames);
+
+            log.Trace("Switched to custom");
         }
 
         private void btn_apply_conf_Click(object sender, EventArgs e)
         {
             if (txt_filelist.Text == string.Empty || txt_filelist.Text.Length ==0 )
             {
-                options.CustomFiles = new string[1] { "" };
+                options.CustomFilenames = new string[1] { "" };
                 log.Warning("Textbox for file list is empty");
             }
             else
             {
-                options.CustomFiles = txt_filelist.Text.Split(',');
+                options.CustomFilenames = txt_filelist.Text.Split(',');
                 log.Info("Writing custom file values to file");
             }
 
-            options.set_custom_filenames = rd_custom_opt.Checked;
-            options.set_use_default_options = rd_default_files.Checked;
+            options.Using_custom_filenames = rd_custom_opt.Checked;
+            options.using_default_filenames = rd_default_files.Checked;
 
+            log.Info("Saving the options.");
             options.SaveConfiguration();
         }
     }
