@@ -47,8 +47,10 @@
             this.txt_filelist = new System.Windows.Forms.TextBox();
             this.rd_custom_opt = new System.Windows.Forms.RadioButton();
             this.rd_default_files = new System.Windows.Forms.RadioButton();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.lst_filenames = new System.Windows.Forms.ListBox();
+            this.chk_file_add = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -89,7 +91,7 @@
             this.lst_files.FormattingEnabled = true;
             this.lst_files.Location = new System.Drawing.Point(37, 104);
             this.lst_files.Name = "lst_files";
-            this.lst_files.Size = new System.Drawing.Size(281, 95);
+            this.lst_files.Size = new System.Drawing.Size(321, 95);
             this.lst_files.TabIndex = 3;
             // 
             // btn_search
@@ -118,7 +120,7 @@
             this.btn_exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_exit.Image")));
             this.btn_exit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_exit.Location = new System.Drawing.Point(264, 282);
+            this.btn_exit.Location = new System.Drawing.Point(304, 282);
             this.btn_exit.Name = "btn_exit";
             this.btn_exit.Size = new System.Drawing.Size(75, 23);
             this.btn_exit.TabIndex = 6;
@@ -135,7 +137,7 @@
             this.tabControl1.Location = new System.Drawing.Point(-4, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(343, 276);
+            this.tabControl1.Size = new System.Drawing.Size(387, 276);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -150,7 +152,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(335, 249);
+            this.tabPage1.Size = new System.Drawing.Size(379, 249);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -162,7 +164,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(335, 249);
+            this.tabPage2.Size = new System.Drawing.Size(379, 249);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "About";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -174,11 +176,13 @@
             this.txt_info.Name = "txt_info";
             this.txt_info.ReadOnly = true;
             this.txt_info.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.txt_info.Size = new System.Drawing.Size(291, 193);
+            this.txt_info.Size = new System.Drawing.Size(335, 193);
             this.txt_info.TabIndex = 0;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.chk_file_add);
+            this.tabPage3.Controls.Add(this.lst_filenames);
             this.tabPage3.Controls.Add(this.btn_apply_conf);
             this.tabPage3.Controls.Add(this.lbl_file_notice);
             this.tabPage3.Controls.Add(this.txt_filelist);
@@ -188,14 +192,14 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 23);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(335, 249);
+            this.tabPage3.Size = new System.Drawing.Size(379, 249);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // btn_apply_conf
             // 
-            this.btn_apply_conf.Location = new System.Drawing.Point(15, 209);
+            this.btn_apply_conf.Location = new System.Drawing.Point(15, 220);
             this.btn_apply_conf.Name = "btn_apply_conf";
             this.btn_apply_conf.Size = new System.Drawing.Size(75, 23);
             this.btn_apply_conf.TabIndex = 4;
@@ -206,7 +210,7 @@
             // lbl_file_notice
             // 
             this.lbl_file_notice.AutoSize = true;
-            this.lbl_file_notice.Location = new System.Drawing.Point(12, 103);
+            this.lbl_file_notice.Location = new System.Drawing.Point(12, 88);
             this.lbl_file_notice.Name = "lbl_file_notice";
             this.lbl_file_notice.Size = new System.Drawing.Size(10, 13);
             this.lbl_file_notice.TabIndex = 3;
@@ -215,9 +219,9 @@
             // txt_filelist
             // 
             this.txt_filelist.Enabled = false;
-            this.txt_filelist.Location = new System.Drawing.Point(12, 136);
+            this.txt_filelist.Location = new System.Drawing.Point(12, 184);
             this.txt_filelist.Name = "txt_filelist";
-            this.txt_filelist.Size = new System.Drawing.Size(298, 20);
+            this.txt_filelist.Size = new System.Drawing.Size(343, 20);
             this.txt_filelist.TabIndex = 2;
             // 
             // rd_custom_opt
@@ -225,10 +229,10 @@
             this.rd_custom_opt.AutoSize = true;
             this.rd_custom_opt.Location = new System.Drawing.Point(12, 55);
             this.rd_custom_opt.Name = "rd_custom_opt";
-            this.rd_custom_opt.Size = new System.Drawing.Size(96, 17);
+            this.rd_custom_opt.Size = new System.Drawing.Size(117, 17);
             this.rd_custom_opt.TabIndex = 1;
             this.rd_custom_opt.TabStop = true;
-            this.rd_custom_opt.Text = "Use custom list";
+            this.rd_custom_opt.Text = "Load custom file list";
             this.rd_custom_opt.UseVisualStyleBackColor = true;
             this.rd_custom_opt.CheckedChanged += new System.EventHandler(this.rd_custom_opt_CheckedChanged);
             // 
@@ -238,18 +242,12 @@
             this.rd_default_files.Checked = true;
             this.rd_default_files.Location = new System.Drawing.Point(12, 20);
             this.rd_default_files.Name = "rd_default_files";
-            this.rd_default_files.Size = new System.Drawing.Size(111, 17);
+            this.rd_default_files.Size = new System.Drawing.Size(115, 17);
             this.rd_default_files.TabIndex = 0;
             this.rd_default_files.TabStop = true;
-            this.rd_default_files.Text = "Use default option";
+            this.rd_default_files.Text = "Load default file list";
             this.rd_default_files.UseVisualStyleBackColor = true;
             this.rd_default_files.CheckedChanged += new System.EventHandler(this.rd_default_files_CheckedChanged);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
             // 
             // imageList1
             // 
@@ -259,11 +257,36 @@
             this.imageList1.Images.SetKeyName(1, "Document-Text-icon.png");
             this.imageList1.Images.SetKeyName(2, "Tools-icon.png");
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
+            // lst_filenames
+            // 
+            this.lst_filenames.FormattingEnabled = true;
+            this.lst_filenames.Location = new System.Drawing.Point(173, 33);
+            this.lst_filenames.Name = "lst_filenames";
+            this.lst_filenames.Size = new System.Drawing.Size(182, 95);
+            this.lst_filenames.TabIndex = 5;
+            // 
+            // chk_file_add
+            // 
+            this.chk_file_add.AutoSize = true;
+            this.chk_file_add.Location = new System.Drawing.Point(15, 151);
+            this.chk_file_add.Name = "chk_file_add";
+            this.chk_file_add.Size = new System.Drawing.Size(90, 17);
+            this.chk_file_add.TabIndex = 6;
+            this.chk_file_add.Text = "Add to the list";
+            this.chk_file_add.UseVisualStyleBackColor = true;
+            this.chk_file_add.CheckedChanged += new System.EventHandler(this.chk_file_add_CheckedChanged);
+            // 
             // frm_copy_sys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 322);
+            this.ClientSize = new System.Drawing.Size(410, 326);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btn_exit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -303,6 +326,8 @@
         private System.Windows.Forms.TextBox txt_filelist;
         private System.Windows.Forms.Button btn_apply_conf;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.CheckBox chk_file_add;
+        private System.Windows.Forms.ListBox lst_filenames;
     }
 }
 
