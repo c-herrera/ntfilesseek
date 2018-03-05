@@ -42,23 +42,26 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.grp_options1 = new System.Windows.Forms.GroupBox();
+            this.rd_custom_opt = new System.Windows.Forms.RadioButton();
+            this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.chk_file_add = new System.Windows.Forms.CheckBox();
             this.lst_filenames = new System.Windows.Forms.ListBox();
             this.btn_apply_conf = new System.Windows.Forms.Button();
             this.lbl_file_notice = new System.Windows.Forms.Label();
             this.txt_filelist = new System.Windows.Forms.TextBox();
-            this.rd_custom_opt = new System.Windows.Forms.RadioButton();
-            this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.grp_options1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_copy
             // 
+            this.btn_copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_copy.Image = ((System.Drawing.Image)(resources.GetObject("btn_copy.Image")));
             this.btn_copy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_copy.Location = new System.Drawing.Point(127, 205);
@@ -96,6 +99,7 @@
             // 
             // btn_search
             // 
+            this.btn_search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_search.Image = ((System.Drawing.Image)(resources.GetObject("btn_search.Image")));
             this.btn_search.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_search.Location = new System.Drawing.Point(37, 205);
@@ -181,13 +185,12 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.grp_options1);
             this.tabPage3.Controls.Add(this.chk_file_add);
             this.tabPage3.Controls.Add(this.lst_filenames);
             this.tabPage3.Controls.Add(this.btn_apply_conf);
             this.tabPage3.Controls.Add(this.lbl_file_notice);
             this.tabPage3.Controls.Add(this.txt_filelist);
-            this.tabPage3.Controls.Add(this.rd_custom_opt);
-            this.tabPage3.Controls.Add(this.rd_default_files);
             this.tabPage3.ImageIndex = 2;
             this.tabPage3.Location = new System.Drawing.Point(4, 23);
             this.tabPage3.Name = "tabPage3";
@@ -197,16 +200,51 @@
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // grp_options1
+            // 
+            this.grp_options1.Controls.Add(this.rd_custom_opt);
+            this.grp_options1.Controls.Add(this.rd_default_files);
+            this.grp_options1.Location = new System.Drawing.Point(12, 33);
+            this.grp_options1.Name = "grp_options1";
+            this.grp_options1.Size = new System.Drawing.Size(155, 93);
+            this.grp_options1.TabIndex = 7;
+            this.grp_options1.TabStop = false;
+            this.grp_options1.Text = "Select file list to use";
+            // 
+            // rd_custom_opt
+            // 
+            this.rd_custom_opt.AutoSize = true;
+            this.rd_custom_opt.Location = new System.Drawing.Point(13, 55);
+            this.rd_custom_opt.Name = "rd_custom_opt";
+            this.rd_custom_opt.Size = new System.Drawing.Size(117, 17);
+            this.rd_custom_opt.TabIndex = 3;
+            this.rd_custom_opt.TabStop = true;
+            this.rd_custom_opt.Text = "Load custom file list";
+            this.rd_custom_opt.UseVisualStyleBackColor = true;
+            this.rd_custom_opt.Click += new System.EventHandler(this.rd_custom_opt_Click);
+            // 
+            // rd_default_files
+            // 
+            this.rd_default_files.AutoSize = true;
+            this.rd_default_files.Checked = true;
+            this.rd_default_files.Location = new System.Drawing.Point(13, 20);
+            this.rd_default_files.Name = "rd_default_files";
+            this.rd_default_files.Size = new System.Drawing.Size(115, 17);
+            this.rd_default_files.TabIndex = 2;
+            this.rd_default_files.TabStop = true;
+            this.rd_default_files.Text = "Load default file list";
+            this.rd_default_files.UseVisualStyleBackColor = true;
+            this.rd_default_files.Click += new System.EventHandler(this.rd_default_files_Click);
+            // 
             // chk_file_add
             // 
             this.chk_file_add.AutoSize = true;
             this.chk_file_add.Location = new System.Drawing.Point(15, 151);
             this.chk_file_add.Name = "chk_file_add";
-            this.chk_file_add.Size = new System.Drawing.Size(90, 17);
+            this.chk_file_add.Size = new System.Drawing.Size(136, 17);
             this.chk_file_add.TabIndex = 6;
-            this.chk_file_add.Text = "Add to the list";
+            this.chk_file_add.Text = "Set a new list to search";
             this.chk_file_add.UseVisualStyleBackColor = true;
-            this.chk_file_add.CheckedChanged += new System.EventHandler(this.chk_file_add_CheckedChanged);
             this.chk_file_add.Click += new System.EventHandler(this.chk_file_add_Click);
             // 
             // lst_filenames
@@ -219,11 +257,16 @@
             // 
             // btn_apply_conf
             // 
+            this.btn_apply_conf.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_apply_conf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_apply_conf.ImageIndex = 3;
+            this.btn_apply_conf.ImageList = this.imageList1;
             this.btn_apply_conf.Location = new System.Drawing.Point(15, 220);
             this.btn_apply_conf.Name = "btn_apply_conf";
-            this.btn_apply_conf.Size = new System.Drawing.Size(75, 23);
+            this.btn_apply_conf.Size = new System.Drawing.Size(105, 23);
             this.btn_apply_conf.TabIndex = 4;
-            this.btn_apply_conf.Text = "Apply";
+            this.btn_apply_conf.Text = "Apply changes";
+            this.btn_apply_conf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_apply_conf.UseVisualStyleBackColor = true;
             this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
             // 
@@ -244,33 +287,6 @@
             this.txt_filelist.Size = new System.Drawing.Size(343, 20);
             this.txt_filelist.TabIndex = 2;
             // 
-            // rd_custom_opt
-            // 
-            this.rd_custom_opt.AutoSize = true;
-            this.rd_custom_opt.Location = new System.Drawing.Point(12, 55);
-            this.rd_custom_opt.Name = "rd_custom_opt";
-            this.rd_custom_opt.Size = new System.Drawing.Size(117, 17);
-            this.rd_custom_opt.TabIndex = 1;
-            this.rd_custom_opt.TabStop = true;
-            this.rd_custom_opt.Text = "Load custom file list";
-            this.rd_custom_opt.UseVisualStyleBackColor = true;
-            this.rd_custom_opt.CheckedChanged += new System.EventHandler(this.rd_custom_opt_CheckedChanged);
-            this.rd_custom_opt.Click += new System.EventHandler(this.rd_custom_opt_Click);
-            // 
-            // rd_default_files
-            // 
-            this.rd_default_files.AutoSize = true;
-            this.rd_default_files.Checked = true;
-            this.rd_default_files.Location = new System.Drawing.Point(12, 20);
-            this.rd_default_files.Name = "rd_default_files";
-            this.rd_default_files.Size = new System.Drawing.Size(115, 17);
-            this.rd_default_files.TabIndex = 0;
-            this.rd_default_files.TabStop = true;
-            this.rd_default_files.Text = "Load default file list";
-            this.rd_default_files.UseVisualStyleBackColor = true;
-            this.rd_default_files.CheckedChanged += new System.EventHandler(this.rd_default_files_CheckedChanged);
-            this.rd_default_files.Click += new System.EventHandler(this.rd_default_files_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -278,6 +294,7 @@
             this.imageList1.Images.SetKeyName(0, "Audio-Cd-icon.png");
             this.imageList1.Images.SetKeyName(1, "Document-Text-icon.png");
             this.imageList1.Images.SetKeyName(2, "Tools-icon.png");
+            this.imageList1.Images.SetKeyName(3, "symbol-check-icon.png");
             // 
             // notifyIcon1
             // 
@@ -304,6 +321,8 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.grp_options1.ResumeLayout(false);
+            this.grp_options1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -323,14 +342,15 @@
         private System.Windows.Forms.TextBox txt_info;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.RadioButton rd_custom_opt;
-        private System.Windows.Forms.RadioButton rd_default_files;
         private System.Windows.Forms.Label lbl_file_notice;
         private System.Windows.Forms.TextBox txt_filelist;
         private System.Windows.Forms.Button btn_apply_conf;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.CheckBox chk_file_add;
         private System.Windows.Forms.ListBox lst_filenames;
+        private System.Windows.Forms.GroupBox grp_options1;
+        private System.Windows.Forms.RadioButton rd_custom_opt;
+        private System.Windows.Forms.RadioButton rd_default_files;
     }
 }
 
