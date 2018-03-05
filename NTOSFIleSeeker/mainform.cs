@@ -54,34 +54,34 @@ namespace NTOSFIleSeeker
             rd_default_files.Checked = options.using_default_filenames;
             rd_custom_opt.Checked = options.Using_custom_filenames;
 
-            //if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
-            //{
-            //    try
-            //    {
-            //        this.Visible = false;
-            //        ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
-            //        info.UseShellExecute = true;
-            //        info.Verb = "runas";   // invoke UAC prompt
-            //        Process.Start(info);
-            //        log.Info("Application has admin privileges");
-            //    }
-            //    catch (Win32Exception ex)
-            //    {
-            //        if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
-            //        {
-            //            MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //            log.Debug("Canceled the Admin privileges");
-            //            Application.Exit();
-            //        }
-            //        else
-            //            throw new Exception("Something went wrong :-(");
-            //    }
-            //    Application.Exit();
-            //}
-            //else
-            //{
-            //    log.Info("I have admin privileges :-)");
-            //}
+            if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
+            {
+                try
+                {
+                    this.Visible = false;
+                    ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath); // my own .exe
+                    info.UseShellExecute = true;
+                    info.Verb = "runas";   // invoke UAC prompt
+                    Process.Start(info);
+                    log.Info("Application has admin privileges");
+                }
+                catch (Win32Exception ex)
+                {
+                    if (ex.NativeErrorCode == 1223) //The operation was canceled by the user.
+                    {
+                        MessageBox.Show("Why did you not selected Yes?", "WHY?", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        log.Debug("Canceled the Admin privileges");
+                        Application.Exit();
+                    }
+                    else
+                        throw new Exception("Something went wrong :-(");
+                }
+                Application.Exit();
+            }
+            else
+            {
+                log.Info("I have admin privileges :-)");
+            }
 
             status += "App is on" + Environment.NewLine;
 
@@ -283,68 +283,39 @@ namespace NTOSFIleSeeker
             Application.Exit();
         }
 
-        private void rd_default_files_CheckedChanged(object sender, EventArgs e)
-        {
-            //txt_filelist.Text = string.Empty;
-            //txt_filelist.Enabled = false;
-            //chk_file_add.Checked = false;
-            ////txt_filelist.Enabled = true;
-            ////txt_filelist.ReadOnly = true;
-
-            //lbl_file_notice.Text = "Using default list";
-            //lst_filenames.Items.Clear();
-            //lst_filenames.Items.AddRange(options.DefaultFilenames);
-
-            ////txt_filelist.Text = string.Join(",", options.DefaultFilenames);
-
-            //log.Trace("Switched to default");
-
-        }
-
         private void rd_custom_opt_CheckedChanged(object sender, EventArgs e)
         {
             txt_filelist.Text = string.Empty;
             txt_filelist.Enabled = true;
             chk_file_add.Checked = true;
-            //txt_filelist.Enabled = true;
-            //txt_filelist.ReadOnly = false;
 
             lbl_file_notice.Text = "Using Custom list";
             lst_filenames.Items.Clear();
             lst_filenames.Items.AddRange(options.CustomFilenames);
-            //txt_filelist.Text = string.Join(",", options.CustomFilenames);
 
             log.Trace("Switched to custom");
         }
 
         private void btn_apply_conf_Click(object sender, EventArgs e)
         {
+            string temp = string.Empty;
+
             if (txt_filelist.Text == string.Empty || txt_filelist.Text.Length ==0 )
             {
-                //options.CustomFilenames = new string[1] { "" };
                 log.Warning("Textbox for file list is empty");
             }
             else
             {
+                options.Using_custom_filenames = rd_custom_opt.Checked;
+                options.using_default_filenames = rd_default_files.Checked;
+
                 options.CustomFilenames = txt_filelist.Text.Split(',');
+                log.Info("Saving the options.");
+                options.SaveConfiguration();
                 log.Info("Writing custom file values to file");
             }
 
-            options.Using_custom_filenames = rd_custom_opt.Checked;
-            options.using_default_filenames = rd_default_files.Checked;
 
-            log.Info("Saving the options.");
-            options.SaveConfiguration();
-        }
-
-        private void chk_file_add_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (chk_file_add.Checked == true)
-            //    txt_filelist.Enabled = true;
-            //else
-            //    txt_filelist.Enabled = false;
-
-            //txt_filelist.Enabled = (chk_file_add.Checked == true) ? true : false;
         }
 
         private void rd_default_files_Click(object sender, EventArgs e)
@@ -352,14 +323,10 @@ namespace NTOSFIleSeeker
             txt_filelist.Text = string.Empty;
             txt_filelist.Enabled = false;
             chk_file_add.Checked = false;
-            //txt_filelist.Enabled = true;
-            //txt_filelist.ReadOnly = true;
 
             lbl_file_notice.Text = "Using default list";
             lst_filenames.Items.Clear();
             lst_filenames.Items.AddRange(options.DefaultFilenames);
-
-            //txt_filelist.Text = string.Join(",", options.DefaultFilenames);
 
             log.Trace("Switched to default");
         }
@@ -369,19 +336,17 @@ namespace NTOSFIleSeeker
             txt_filelist.Text = string.Empty;
             txt_filelist.Enabled = true;
             chk_file_add.Checked = true;
-            //txt_filelist.Enabled = true;
-            //txt_filelist.ReadOnly = false;
 
             lbl_file_notice.Text = "Using Custom list";
             lst_filenames.Items.Clear();
             lst_filenames.Items.AddRange(options.CustomFilenames);
-            //txt_filelist.Text = string.Join(",", options.CustomFilenames);
 
             log.Trace("Switched to custom");
         }
 
         private void chk_file_add_Click(object sender, EventArgs e)
         {
+            log.Trace("Check state of " + this.chk_file_add.ToString() + " State : " + chk_file_add.Checked);
             txt_filelist.Enabled = (chk_file_add.Checked == true) ? true : false;
         }
     }
