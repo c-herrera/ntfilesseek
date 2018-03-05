@@ -42,6 +42,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chk_file_add = new System.Windows.Forms.CheckBox();
+            this.lst_filenames = new System.Windows.Forms.ListBox();
             this.btn_apply_conf = new System.Windows.Forms.Button();
             this.lbl_file_notice = new System.Windows.Forms.Label();
             this.txt_filelist = new System.Windows.Forms.TextBox();
@@ -49,8 +51,6 @@
             this.rd_default_files = new System.Windows.Forms.RadioButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.lst_filenames = new System.Windows.Forms.ListBox();
-            this.chk_file_add = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -197,6 +197,26 @@
             this.tabPage3.Text = "Options";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // chk_file_add
+            // 
+            this.chk_file_add.AutoSize = true;
+            this.chk_file_add.Location = new System.Drawing.Point(15, 151);
+            this.chk_file_add.Name = "chk_file_add";
+            this.chk_file_add.Size = new System.Drawing.Size(90, 17);
+            this.chk_file_add.TabIndex = 6;
+            this.chk_file_add.Text = "Add to the list";
+            this.chk_file_add.UseVisualStyleBackColor = true;
+            this.chk_file_add.CheckedChanged += new System.EventHandler(this.chk_file_add_CheckedChanged);
+            this.chk_file_add.Click += new System.EventHandler(this.chk_file_add_Click);
+            // 
+            // lst_filenames
+            // 
+            this.lst_filenames.FormattingEnabled = true;
+            this.lst_filenames.Location = new System.Drawing.Point(173, 33);
+            this.lst_filenames.Name = "lst_filenames";
+            this.lst_filenames.Size = new System.Drawing.Size(182, 95);
+            this.lst_filenames.TabIndex = 5;
+            // 
             // btn_apply_conf
             // 
             this.btn_apply_conf.Location = new System.Drawing.Point(15, 220);
@@ -235,6 +255,7 @@
             this.rd_custom_opt.Text = "Load custom file list";
             this.rd_custom_opt.UseVisualStyleBackColor = true;
             this.rd_custom_opt.CheckedChanged += new System.EventHandler(this.rd_custom_opt_CheckedChanged);
+            this.rd_custom_opt.Click += new System.EventHandler(this.rd_custom_opt_Click);
             // 
             // rd_default_files
             // 
@@ -248,6 +269,7 @@
             this.rd_default_files.Text = "Load default file list";
             this.rd_default_files.UseVisualStyleBackColor = true;
             this.rd_default_files.CheckedChanged += new System.EventHandler(this.rd_default_files_CheckedChanged);
+            this.rd_default_files.Click += new System.EventHandler(this.rd_default_files_Click);
             // 
             // imageList1
             // 
@@ -262,25 +284,6 @@
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
-            // 
-            // lst_filenames
-            // 
-            this.lst_filenames.FormattingEnabled = true;
-            this.lst_filenames.Location = new System.Drawing.Point(173, 33);
-            this.lst_filenames.Name = "lst_filenames";
-            this.lst_filenames.Size = new System.Drawing.Size(182, 95);
-            this.lst_filenames.TabIndex = 5;
-            // 
-            // chk_file_add
-            // 
-            this.chk_file_add.AutoSize = true;
-            this.chk_file_add.Location = new System.Drawing.Point(15, 151);
-            this.chk_file_add.Name = "chk_file_add";
-            this.chk_file_add.Size = new System.Drawing.Size(90, 17);
-            this.chk_file_add.TabIndex = 6;
-            this.chk_file_add.Text = "Add to the list";
-            this.chk_file_add.UseVisualStyleBackColor = true;
-            this.chk_file_add.CheckedChanged += new System.EventHandler(this.chk_file_add_CheckedChanged);
             // 
             // frm_copy_sys
             // 

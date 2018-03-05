@@ -285,19 +285,19 @@ namespace NTOSFIleSeeker
 
         private void rd_default_files_CheckedChanged(object sender, EventArgs e)
         {
-            txt_filelist.Text = string.Empty;
-            txt_filelist.Enabled = false;
-            chk_file_add.Checked = false;
-            //txt_filelist.Enabled = true;
-            //txt_filelist.ReadOnly = true;
+            //txt_filelist.Text = string.Empty;
+            //txt_filelist.Enabled = false;
+            //chk_file_add.Checked = false;
+            ////txt_filelist.Enabled = true;
+            ////txt_filelist.ReadOnly = true;
 
-            lbl_file_notice.Text = "Using default list";
-            lst_filenames.Items.Clear();
-            lst_filenames.Items.AddRange(options.DefaultFilenames);
+            //lbl_file_notice.Text = "Using default list";
+            //lst_filenames.Items.Clear();
+            //lst_filenames.Items.AddRange(options.DefaultFilenames);
 
-            //txt_filelist.Text = string.Join(",", options.DefaultFilenames);
+            ////txt_filelist.Text = string.Join(",", options.DefaultFilenames);
 
-            log.Trace("Switched to default");
+            //log.Trace("Switched to default");
 
         }
 
@@ -344,6 +344,44 @@ namespace NTOSFIleSeeker
             //else
             //    txt_filelist.Enabled = false;
 
+            //txt_filelist.Enabled = (chk_file_add.Checked == true) ? true : false;
+        }
+
+        private void rd_default_files_Click(object sender, EventArgs e)
+        {
+            txt_filelist.Text = string.Empty;
+            txt_filelist.Enabled = false;
+            chk_file_add.Checked = false;
+            //txt_filelist.Enabled = true;
+            //txt_filelist.ReadOnly = true;
+
+            lbl_file_notice.Text = "Using default list";
+            lst_filenames.Items.Clear();
+            lst_filenames.Items.AddRange(options.DefaultFilenames);
+
+            //txt_filelist.Text = string.Join(",", options.DefaultFilenames);
+
+            log.Trace("Switched to default");
+        }
+
+        private void rd_custom_opt_Click(object sender, EventArgs e)
+        {
+            txt_filelist.Text = string.Empty;
+            txt_filelist.Enabled = true;
+            chk_file_add.Checked = true;
+            //txt_filelist.Enabled = true;
+            //txt_filelist.ReadOnly = false;
+
+            lbl_file_notice.Text = "Using Custom list";
+            lst_filenames.Items.Clear();
+            lst_filenames.Items.AddRange(options.CustomFilenames);
+            //txt_filelist.Text = string.Join(",", options.CustomFilenames);
+
+            log.Trace("Switched to custom");
+        }
+
+        private void chk_file_add_Click(object sender, EventArgs e)
+        {
             txt_filelist.Enabled = (chk_file_add.Checked == true) ? true : false;
         }
     }
