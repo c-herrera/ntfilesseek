@@ -168,7 +168,7 @@ namespace NTOSFIleSeeker
             lst_files.Update();
 
             if (lst_files.Items.Count == 0)
-                log.Trace("No lines is the list box");
+                log.Trace("No items in the list box");
 
             pattern_files.Clear();
 
@@ -192,7 +192,7 @@ namespace NTOSFIleSeeker
                 if (pattern_files.Count > 0)
                     log.Trace("List of files copied to search pattern");
                 else
-                    log.Error("Not enough files to search, unexepected ehaviour");
+                    log.Error("Not enough files to search, unexepected behaviour");
             }
             catch (Exception ex)
             {
