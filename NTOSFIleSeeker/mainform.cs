@@ -250,12 +250,13 @@ namespace NTOSFIleSeeker
                     foreach ( string file in full_path )
                     {
                         File.Copy(file, save_folder + "\\" + Path.GetFileName(file), true);
-                        log.Trace("Copying file " + file + " To  ==>" + save_folder); 
+                        log.Trace("Copying file " + file + " To  ==> " + save_folder); 
                     }
 
                     notifyIcon1.BalloonTipText = " Process is done, check the files on the Desktop folder";
                     notifyIcon1.ShowBalloonTip(1000);
                     log.Info(" Files seem to be copied to the target directory");
+                    link_lbl_logview.Visible = true;
                 }
                 else
                 {
@@ -300,7 +301,7 @@ namespace NTOSFIleSeeker
         {
             string temp = string.Empty;
 
-            if (txt_filelist.Text == string.Empty || txt_filelist.Text.Length ==0 )
+            if ( (txt_filelist.Text == string.Empty || txt_filelist.Text.Length ==0) && chk_file_add.Checked == true)
             {
                 log.Warning("Textbox for file list is empty");
             }
@@ -348,6 +349,28 @@ namespace NTOSFIleSeeker
         {
             log.Trace("Check state of " + this.chk_file_add.ToString() + " State : " + chk_file_add.Checked);
             txt_filelist.Enabled = (chk_file_add.Checked == true) ? true : false;
+        }
+
+        private void link_lbl_logview_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(".//" + Application.ProductName + "_config.conf"))
+            {
+                Process view = new Process();
+                try
+                {
+                    view.StartInfo.FileName = "notepad.exe";
+                    view.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+                    view.StartInfo.Arguments = Application.ProductName + ".log";
+                    view.Start();
+                }
+                catch (Exception excp)
+                {
+                    log.Error("Error on view the log");
+                    log.Debug("Error ocurred in " + this.link_lbl_logview.ToString());
+                    log.Debug("Exceptio raised : " + excp.Message);
+                }
+                view.Dispose();
+            }
         }
     }
 }

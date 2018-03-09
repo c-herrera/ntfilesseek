@@ -48,10 +48,11 @@
             this.chk_file_add = new System.Windows.Forms.CheckBox();
             this.lst_filenames = new System.Windows.Forms.ListBox();
             this.btn_apply_conf = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.lbl_file_notice = new System.Windows.Forms.Label();
             this.txt_filelist = new System.Windows.Forms.TextBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.link_lbl_logview = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -146,6 +147,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.link_lbl_logview);
             this.tabPage1.Controls.Add(this.lbl_text_1);
             this.tabPage1.Controls.Add(this.btn_copy);
             this.tabPage1.Controls.Add(this.lbl_results);
@@ -270,6 +272,15 @@
             this.btn_apply_conf.UseVisualStyleBackColor = true;
             this.btn_apply_conf.Click += new System.EventHandler(this.btn_apply_conf_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Audio-Cd-icon.png");
+            this.imageList1.Images.SetKeyName(1, "Document-Text-icon.png");
+            this.imageList1.Images.SetKeyName(2, "Tools-icon.png");
+            this.imageList1.Images.SetKeyName(3, "symbol-check-icon.png");
+            // 
             // lbl_file_notice
             // 
             this.lbl_file_notice.AutoSize = true;
@@ -287,20 +298,23 @@
             this.txt_filelist.Size = new System.Drawing.Size(343, 20);
             this.txt_filelist.TabIndex = 2;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Audio-Cd-icon.png");
-            this.imageList1.Images.SetKeyName(1, "Document-Text-icon.png");
-            this.imageList1.Images.SetKeyName(2, "Tools-icon.png");
-            this.imageList1.Images.SetKeyName(3, "symbol-check-icon.png");
-            // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
+            // 
+            // link_lbl_logview
+            // 
+            this.link_lbl_logview.AutoSize = true;
+            this.link_lbl_logview.Location = new System.Drawing.Point(242, 210);
+            this.link_lbl_logview.Name = "link_lbl_logview";
+            this.link_lbl_logview.Size = new System.Drawing.Size(51, 13);
+            this.link_lbl_logview.TabIndex = 6;
+            this.link_lbl_logview.TabStop = true;
+            this.link_lbl_logview.Text = "View Log";
+            this.link_lbl_logview.Visible = false;
+            this.link_lbl_logview.Click += new System.EventHandler(this.link_lbl_logview_Click);
             // 
             // frm_copy_sys
             // 
@@ -351,6 +365,7 @@
         private System.Windows.Forms.GroupBox grp_options1;
         private System.Windows.Forms.RadioButton rd_custom_opt;
         private System.Windows.Forms.RadioButton rd_default_files;
+        private System.Windows.Forms.LinkLabel link_lbl_logview;
     }
 }
 
