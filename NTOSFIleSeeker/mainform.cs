@@ -368,6 +368,7 @@ namespace NTOSFIleSeeker
                     log.Error("Error on view the log");
                     log.Debug("Error ocurred in " + this.link_lbl_logview.ToString());
                     log.Debug("Exceptio raised : " + excp.Message);
+                    MessageBox.Show("" + excp.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 view.Dispose();
             }

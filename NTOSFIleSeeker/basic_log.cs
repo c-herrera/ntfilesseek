@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace NTOSFIleSeeker
 {
@@ -39,15 +40,24 @@ namespace NTOSFIleSeeker
 
             // Log file header line
             string logHeader = Filename + " is created.";
-            if (!File.Exists(Filename))
+            try
             {
-                WriteLine(DateTime.Now.ToString(DatetimeFormat) + " " + logHeader, false);
-            }
-            else
-            {
-                if (append == false)
+                if (!File.Exists(Filename))
+                {
                     WriteLine(DateTime.Now.ToString(DatetimeFormat) + " " + logHeader, false);
+                }
+                else
+                {
+                    if (append == false)
+                        WriteLine(DateTime.Now.ToString(DatetimeFormat) + " " + logHeader, false);
+                }
             }
+            catch (Exception excp)
+            {
+                MessageBox.Show(":" + excp.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
         /// <summary>
@@ -147,6 +157,7 @@ namespace NTOSFIleSeeker
         /// <exception cref="System.IO.IOException"></exception>
         private void WriteLine(string text, bool append = true)
         {
+
             try
             {
                 using (StreamWriter Writer = new StreamWriter(Filename, append, Encoding.UTF8))
@@ -154,10 +165,13 @@ namespace NTOSFIleSeeker
                     if (text != "") Writer.WriteLine(text);
                 }
             }
-            catch
+            catch (Exception excp)
             {
-                throw;
+                IOException e = new IOException();
+                MessageBox.Show(" :" + excp.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw e.InnerException;
             }
+
         }
 
 
