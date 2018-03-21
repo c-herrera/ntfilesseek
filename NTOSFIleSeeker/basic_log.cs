@@ -10,13 +10,14 @@ using System.Windows.Forms;
 namespace NTOSFIleSeeker
 {
 
-
-
     public class SimpleLogger
     {
         private string DatetimeFormat;
-        private string Filename;
+        private string LogFileName;
 
+        private int errorCount = 0;   // errors 
+        private int failureCount = 0; // fatal errors
+        private int warningCount = 0; // warnings
 
         /// <summary>
         /// Supported log level
@@ -24,8 +25,17 @@ namespace NTOSFIleSeeker
         [Flags]
         private enum LogLevel
         {
-            TRACE, INFO,DEBUG,WARNING,ERROR, FATAL
-        }
+            TRACE, INFO, DEBUG, WARNING, ERROR, FATAL
+        };
+
+        /// <summary>
+        /// [Enum] Log type (text, xml, no log)
+        /// </summary>
+        [Flags]
+        public enum LogType
+        {
+            NoLog, LogInTextFormat
+        };
 
         /// <summary>
         /// Initialize a new instance of SimpleLogger class.
@@ -36,13 +46,13 @@ namespace NTOSFIleSeeker
         public SimpleLogger(bool append = false)
         {
             DatetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-            Filename = Assembly.GetExecutingAssembly().GetName().Name + ".log";
+            LogFileName = Assembly.GetExecutingAssembly().GetName().Name + ".log";
 
             // Log file header line
-            string logHeader = Filename + " is created.";
+            string logHeader = LogFileName + " is created.";
             try
             {
-                if (!File.Exists(Filename))
+                if (!File.Exists(LogFileName))
                 {
                     WriteLine(DateTime.Now.ToString(DatetimeFormat) + " " + logHeader, false);
                 }
@@ -54,9 +64,8 @@ namespace NTOSFIleSeeker
             }
             catch (Exception excp)
             {
-                MessageBox.Show(":" + excp.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw excp;
             }
-
 
         }
 
@@ -76,6 +85,7 @@ namespace NTOSFIleSeeker
         public void Error(string text)
         {
             WriteFormattedLog(LogLevel.ERROR, text);
+            errorCount++;
         }
 
         /// <summary>
@@ -85,6 +95,7 @@ namespace NTOSFIleSeeker
         public void Fatal(string text)
         {
             WriteFormattedLog(LogLevel.FATAL, text);
+            failureCount++;
         }
 
         /// <summary>
@@ -112,6 +123,7 @@ namespace NTOSFIleSeeker
         public void Warning(string text)
         {
             WriteFormattedLog(LogLevel.WARNING, text);
+            warningCount++;
         }
 
         /// <summary>
@@ -146,6 +158,7 @@ namespace NTOSFIleSeeker
                     pretext = "";
                     break;
             }
+
             WriteLine(pretext + text);
         }
 
@@ -157,24 +170,54 @@ namespace NTOSFIleSeeker
         /// <exception cref="System.IO.IOException"></exception>
         private void WriteLine(string text, bool append = true)
         {
-
             try
             {
-                using (StreamWriter Writer = new StreamWriter(Filename, append, Encoding.UTF8))
+                using (StreamWriter Writer = new StreamWriter(LogFileName, append, Encoding.UTF8))
                 {
-                    if (text != "") Writer.WriteLine(text);
+                    if (text != string.Empty)
+                        Writer.WriteLine(text);
                 }
             }
-            catch (Exception excp)
+            catch
             {
-                IOException e = new IOException();
-                MessageBox.Show(" :" + excp.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw e.InnerException;
+                throw;
             }
+        }
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
+        ~SimpleLogger()
+        {
+            WriteFormattedLog(LogLevel.INFO, "Total of Errors :" + errorCount);
+            WriteFormattedLog(LogLevel.INFO, "Total of Fatal Errors :" + failureCount);
+            WriteFormattedLog(LogLevel.INFO, "Total of Warnings :" + warningCount);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TotalErrors
+        {
+            get { return errorCount; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TotalFatalErrors
+        {
+            get { return failureCount; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TotalWarnings
+        {
+            get { return warningCount; }
         }
 
 
     }
-
 }
