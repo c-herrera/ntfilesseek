@@ -51,8 +51,8 @@ namespace NTOSFIleSeeker
             log.Info("Application form load");
             log.Info("Trying to get Admin privileges");
 
-            rd_default_files.Checked = options.using_default_filenames;
-            rd_custom_opt.Checked = options.Using_custom_filenames;
+            rd_default_files.Checked = options.Using_DefaultFilenames;
+            rd_custom_opt.Checked = options.Using_CustomFilenames;
 
             if (WindowsIdentity.GetCurrent().Owner == WindowsIdentity.GetCurrent().User)   // Check for Admin privileges   
             {
@@ -122,11 +122,12 @@ namespace NTOSFIleSeeker
 
             log.Info("Notification did its job");
 
-            if (options.using_default_filenames == true)
+            if (options.Using_DefaultFilenames == true)
                 listfiles = options.DefaultFilenames;
 
-            if (options.Using_custom_filenames == true)
+            if (options.Using_CustomFilenames == true)
                listfiles = options.CustomFilenames;
+            
 
             try
             {
@@ -307,8 +308,8 @@ namespace NTOSFIleSeeker
             }
             else
             {
-                options.Using_custom_filenames = rd_custom_opt.Checked;
-                options.using_default_filenames = rd_default_files.Checked;
+                options.Using_CustomFilenames = rd_custom_opt.Checked;
+                options.Using_DefaultFilenames = rd_default_files.Checked;
 
                 options.CustomFilenames = txt_filelist.Text.Split(',');
                 log.Info("Saving the options.");
