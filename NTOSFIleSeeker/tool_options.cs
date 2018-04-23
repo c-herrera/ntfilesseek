@@ -144,7 +144,7 @@ namespace NTOSFIleSeeker
         /// <summary>
         /// Can set or get the state for default file names option
         /// </summary>
-        public bool using_default_filenames
+        public bool Using_DefaultFilenames
         {
             get { return opt_default_conf; }
             set { opt_default_conf = value; }
@@ -153,7 +153,7 @@ namespace NTOSFIleSeeker
         /// <summary>
         /// Can set and get the state of the custom file names option
         /// </summary>
-        public bool Using_custom_filenames
+        public bool Using_CustomFilenames
         {
             get { return opt_custom_files; }
             set { opt_custom_files = value; }
@@ -162,7 +162,7 @@ namespace NTOSFIleSeeker
         /// <summary>
         /// Value returned if configuratio file exist. Read only
         /// </summary>
-        public bool conf_file_exist
+        public bool Config_file_exists
         {
             get { return conf_file_present; }
         }
